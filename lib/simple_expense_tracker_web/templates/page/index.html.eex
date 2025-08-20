@@ -1,0 +1,18 @@
+<div class="p-8 max-w-5xl mx-auto">
+
+  <!-- Quick Navigation Buttons -->
+  <div class="flex justify-center space-x-6 mb-10">
+    <%= link "Expense Categories",
+      to: Routes.expense_category_path(@conn, :index),
+      class: "bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg" %>
+
+    <%= link "All Expenses",
+      to: Routes.expense_path(@conn, :index),
+      class: "bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg" %>
+  </div>
+
+  <!-- Footer -->
+  <div class="text-center mt-12 text-gray-500 text-sm">
+    © <%= Date.utc_today().year %> Simple Expense Tracker. All rights reserved.
+  </div>
+</div>

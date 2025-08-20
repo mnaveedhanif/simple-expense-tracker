@@ -1,0 +1,41 @@
+<div class="p-6 max-w-4xl mx-auto bg-white rounded-lg">
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">New Expense Category</h1>
+
+  <%= form_for @changeset, Routes.expense_category_path(@conn, :create), fn f -> %>
+    <%= if @changeset.action do %>
+      <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <%= label f, :name, class: "block text-md font-semibold text-gray-700" %>
+      <%= text_input f, :name,
+            class: "mt-1 mb-4 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 text-md" %>
+      <%= error_tag f, :name %>
+    </div>
+
+    <div class="mb-4">
+      <%= label f, :description, class: "block text-md font-semibold text-gray-700" %>
+      <%= text_input f, :description,
+            class: "mt-1 mb-4 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 text-md" %>
+      <%= error_tag f, :description %>
+    </div>
+
+    <div class="mb-6">
+      <%= label f, :monthly_budget, class: "block text-md font-semibold text-gray-700" %>
+      <%= number_input f, :monthly_budget, step: "0.01",
+            class: "mt-1 mb-4 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 text-md" %>
+      <%= error_tag f, :monthly_budget %>
+    </div>
+
+    <div class="flex space-x-4">
+      <%= submit "Save",
+          class: "bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg" %>
+
+      <%= link "Back",
+            to: Routes.expense_category_path(@conn, :index),
+            class: "bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg" %>
+    </div>
+  <% end %>
+</div>

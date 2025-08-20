@@ -1,0 +1,33 @@
+<div class="p-6">
+  <h1 class="text-2xl font-bold mb-4">Expense Details</h1>
+
+  <div class="mb-4">
+    <strong>Description:</strong>
+    <p><%= @expense.description %></p>
+  </div>
+
+  <div class="mb-4">
+    <strong>Amount:</strong>
+    <p>$<%= @expense.amount %></p>
+  </div>
+
+  <div class="mb-4">
+    <strong>Date:</strong>
+    <p><%= @expense.date %></p>
+  </div>
+
+  <div class="mb-4">
+    <strong>Notes:</strong>
+    <p><%= @expense.notes %></p>
+  </div>
+
+  <div class="mt-6 flex space-x-2">
+  <%= link "Edit",
+        to: Routes.expense_path(@conn, :edit, @expense),
+        class: "btn btn-primary" %>
+
+  <%= link "Back",
+        to: Routes.expense_path(@conn, :index),
+        class: "btn btn-secondary" %>
+</div>
+</div>

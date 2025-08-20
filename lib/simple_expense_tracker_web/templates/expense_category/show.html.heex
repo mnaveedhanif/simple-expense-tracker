@@ -1,0 +1,36 @@
+<div class="p-6 max-w-3xl mx-auto bg-white rounded-lg">
+  <h1 class="text-4xl font-bold mb-6 text-gray-800">Expense Category Details</h1>
+
+  <div class="overflow-hidden rounded-lg border border-gray-300">
+    <table class="w-full">
+      <tbody>
+        <tr class="bg-gray-50">
+          <th class="px-4 py-3 text-left text-md font-semibold text-gray-600 border">ID</th>
+          <td class="px-4 py-3 border"><%= @expense_category.id %></td>
+        </tr>
+        <tr>
+          <th class="px-4 py-3 text-left text-md font-semibold text-gray-600 border">Name</th>
+          <td class="px-4 py-3 border"><%= @expense_category.name %></td>
+        </tr>
+        <tr class="bg-gray-50">
+          <th class="px-4 py-3 text-left text-md font-semibold text-gray-600 border">Description</th>
+          <td class="px-4 py-3 border"><%= @expense_category.description %></td>
+        </tr>
+        <tr>
+          <th class="px-4 py-3 text-left text-md font-semibold text-gray-600 border">Monthly Budget</th>
+          <td class="px-4 py-3 border">$<%= @expense_category.monthly_budget %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-6 flex space-x-4">
+    <%= link "Back",
+      to: Routes.expense_category_path(@conn, :index),
+      class: "bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg" %>
+
+    <%= link "Edit",
+      to: Routes.expense_category_path(@conn, :edit, @expense_category),
+      class: "bg-yellow-200 hover:bg-yellow-300 text-gray-800 font-semibold py-2 px-4 rounded-lg" %>
+  </div>
+</div>

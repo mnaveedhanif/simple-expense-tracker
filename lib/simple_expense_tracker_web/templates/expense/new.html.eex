@@ -1,0 +1,57 @@
+<div class="p-6 max-w-2xl mx-auto bg-white rounded-lg">
+  <h1 class="text-4xl font-bold mb-6 text-gray-800">New Expense</h1>
+
+  <%= form_for @changeset, Routes.expense_path(@conn, :create), fn f -> %>
+    <%= if @changeset.action do %>
+      <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+        <p>Oops, something went wrong! Please check the errors below.</p>
+      </div>
+    <% end %>
+
+    <div class="mb-4">
+      <%= label f, :description, class: "block text-md font-semibold text-gray-700" %>
+      <%= text_input f, :description,
+            class: "mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-md" %>
+      <%= error_tag f, :description %>
+    </div>
+
+    <div class="mb-4">
+      <%= label f, :amount, class: "block text-md font-semibold text-gray-700" %>
+      <%= number_input f, :amount, step: "0.01", min: "0",
+            class: "mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-md" %>
+      <%= error_tag f, :amount %>
+    </div>
+
+    <div class="mb-4">
+      <%= label f, :date, class: "block text-md font-semibold text-gray-700" %>
+      <%= date_select f, :date,
+            class: "mt-1 block rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-md" %>
+      <%= error_tag f, :date %>
+    </div>
+
+    <div class="mb-4">
+      <%= label f, :notes, class: "block text-md font-semibold text-gray-700" %>
+      <%= textarea f, :notes,
+            class: "mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-md" %>
+      <%= error_tag f, :notes %>
+    </div>
+
+    <div class="mb-6">
+      <%= label f, :expense_category_id, "Expense Category", class: "block text-md font-semibold text-gray-700" %>
+      <%= select f, :expense_category_id,
+            Enum.map(@categories, fn c -> {c.name, c.id} end),
+            prompt: "Choose a category",
+            class: "mt-1 block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-md" %>
+      <%= error_tag f, :expense_category_id %>
+    </div>
+
+    <div class="flex space-x-4">
+      <%= submit "Create Expense",
+          class: "bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg" %>
+
+      <%= link "Back",
+            to: Routes.expense_path(@conn, :index),
+            class: "bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg" %>
+    </div>
+  <% end %>
+</div>

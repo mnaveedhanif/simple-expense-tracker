@@ -1,0 +1,87 @@
+<div class="p-6">
+  <h1 class="text-3xl font-bold mb-4">Expense Categories</h1>
+   <div class="flex justify-end space-x-4 mb-4">
+    <%= link "Add New Expense Category",
+      to: Routes.expense_category_path(@socket, :new),
+      class: "bg-indigo-200 hover:bg-indigo-200 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md" %>
+
+    <%= link "Show All Expenses",
+      to: Routes.expense_path(@socket, :index),
+      class: "bg-indigo-400 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md" %>
+  </div>
+  <table class="mt-6 table-auto w-full border-collapse border border-gray-300">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="px-4 py-2 border">Name</th>
+        <th class="px-4 py-2 border">Description</th>
+        <th class="px-4 py-2 border">Monthly Budget</th>
+        <th class="px-4 py-2 border">Total Spent</th>
+        <th class="px-4 py-2 border">Remaining</th>
+        <th class="px-4 py-2 border">Recent Expenses</th>
+        <th class="px-4 py-2 border">Progress</th>
+        <th class="px-4 py-2 border">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="expense-categories">
+      <%= for %{category: category, total_spent: total_spent, recent_expenses: recent_expenses} <- @categories_with_totals do %>
+        <% percentage =
+          if Decimal.compare(Decimal.round(category.monthly_budget), Decimal.new("0")) == :eq do
+            0
+          else
+             Decimal.div(total_spent, category.monthly_budget)
+            |> Decimal.mult(100)
+            |> Decimal.round(0, :floor)   # round to integer
+            |> Decimal.to_integer()
+          end %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 border"><%= category.name %></td>
+          <td class="px-4 py-2 border"><%= category.description %></td>
+          <td class="px-4 py-2 border">$<%= category.monthly_budget %></td>
+          <td class="px-4 py-2 border">$<%= total_spent %></td>
+          <td class="px-4 py-2 border">
+            $<%= Decimal.sub(category.monthly_budget, total_spent) %>
+          </td>
+          <td class="px-4 py-2 border">
+            <%= if Enum.empty?(recent_expenses) do %>
+              <span class="text-gray-500 text-md">No expenses yet</span>
+            <% else %>
+              <ul class="text-md list-disc list-inside">
+                <%= for exp <- recent_expenses do %>
+                  <li>
+                    <%= exp.description %> — $<%= Decimal.to_string(exp.amount, :normal) %> (<%= exp.date %>)
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </td>
+          <td class="px-4 py-2 border w-64">
+            <div 
+              style="height: 12px; border: 1px solid gray; border-radius: 10px; width: 100%;"
+              class="w-full bg-white rounded-md h-6 border-2 border-black overflow-hidden mb-1">
+            <div
+                style={"height: 100%; width: #{max(percentage, 1)}%; background: #{
+                cond do
+        percentage >= 100 -> "red"
+                percentage >= 80 -> "yellow"
+                true -> "green"
+                end
+                };"}
+                >
+              </div>
+            </div>
+            <span class="text-md"><%= percentage %>%</span>
+          </td>
+          <td class="px-4 py-2 border space-x-2">
+            <%= link "Show",
+              to: Routes.expense_category_path(@socket, :show, category),
+              class: "inline-block bg-blue-200 text-gray-800 text-md font-semibold py-1 px-3 rounded-lg" %>
+
+            <%= link "Edit",
+              to: Routes.expense_category_path(@socket, :edit, category),
+              class: "inline-block bg-yellow-200 text-gray-800 text-md font-semibold py-1 px-3 rounded-lg" %>
+        </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
